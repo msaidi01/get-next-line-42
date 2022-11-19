@@ -6,7 +6,7 @@
 /*   By: msaidi <msaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:40:49 by msaidi            #+#    #+#             */
-/*   Updated: 2022/11/18 08:57:32 by msaidi           ###   ########.fr       */
+/*   Updated: 2022/11/19 14:24:15 by msaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,32 @@ char	*read_fd(int fd, char *buff, char *str)
 	return (str);
 }
 
+char	*get_rest(char *str)
+{
+	int		i;
+	int		j;
+	char	*temp;
+
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	if (!str[i])
+	{
+		free(str);
+		return (NULL);
+	}
+	temp = malloc(sizeof(char) * ft_strlen(str) - i + 1);
+	if (!temp)
+		return (free(str), NULL);
+	i++;
+	j = 0;
+	while (str[i])
+		temp[j++] = str[i++];
+	temp[j] = '\0';
+	free(str);
+	return (temp);
+}
+
 char	*get_next_line(int fd)
 {
 	char		*buff;
@@ -70,24 +96,8 @@ char	*get_next_line(int fd)
 		return (free(s[fd]), s[fd] = NULL);
 	tmp = s[fd];
 	line = ft_substr(tmp, 0, ft_lennew(tmp) + 1);
-	tmp = s[fd];
-	s[fd] = ft_substr(tmp, ft_lennew(tmp) + 1,
-			ft_strlen(tmp + ft_lennew(tmp)) + 1);
-	free(tmp);
+	if (!line)
+		return (free(line), line = NULL);
+	s[fd] = get_rest(s[fd]);
 	return (line);
 }
-// int main()
-// {
-//     int fd = open("amine", O_RDWR);
-//     int fd1 = open("file", O_RDWR);
-
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd1));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd1));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd1));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd1));
-// 	printf("%s", get_next_line(fd));
-// }

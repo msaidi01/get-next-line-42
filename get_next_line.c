@@ -6,7 +6,7 @@
 /*   By: msaidi <msaidi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:40:49 by msaidi            #+#    #+#             */
-/*   Updated: 2022/11/18 11:40:42 by msaidi           ###   ########.fr       */
+/*   Updated: 2022/11/19 14:20:33 by msaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_rest(char *str)
 	}
 	temp = malloc(sizeof(char) * ft_strlen(str) - i + 1);
 	if (!temp)
-		return (NULL);
+		return (free(str), NULL);
 	i++;
 	j = 0;
 	while (str[i])
@@ -101,18 +101,3 @@ char	*get_next_line(int fd)
 	s = get_rest(s);
 	return (line);
 }
-
-// int main()
-// {
-//     int fd = open("amine", O_RDONLY);
-//     char *r = get_next_line(fd);
-
-//     while (r)
-//     {
-//         printf("%s", r);
-// 		free(r);
-// 	    r = get_next_line(fd);
-//     }
-// 	printf("%s", r);
-// 	system("leaks a.out");
-// }
